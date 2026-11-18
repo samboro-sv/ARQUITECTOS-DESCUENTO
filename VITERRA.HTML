@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>15% Beneficio Exclusivo - Galería Viterra</title>
-  <!-- Fuentes elegantes de Google Fonts para replicar el estilo de referencia -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Alex+Brush&family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -14,8 +13,7 @@
       --gold: #c8a258;
       --gold-light: #e5c685;
       --gold-dark: #9c7a36;
-      --dark-bg: #111111;
-      --card-bg: rgba(16, 16, 18, 0.92);
+      --card-bg: rgba(16, 16, 18, 0.94);
     }
 
     * { box-sizing: border-box; }
@@ -41,25 +39,29 @@
     .card {
       background: var(--card-bg);
       backdrop-filter: blur(10px);
-      padding: 30px 24px;
-      border-radius: 4px;
-      border: 1px solid rgba(200, 162, 88, 0.45);
+      border-radius: 6px;
+      border: 1px solid rgba(200, 162, 88, 0.5);
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.75);
       width: 100%;
       max-width: 430px;
       text-align: center;
-      position: relative;
+      overflow: hidden;
     }
 
+    /* Cabecera clara para que el logotipo con letras negras sea 100% legible */
     .logo-container {
-      margin-bottom: 18px;
-      padding-bottom: 14px;
-      border-bottom: 1px solid rgba(200, 162, 88, 0.25);
+      background: linear-gradient(180deg, #ffffff 0%, #f4f1ea 100%);
+      padding: 20px 24px 16px;
+      border-bottom: 2px solid var(--gold);
     }
     .logo-viterra {
-      max-width: 195px;
+      max-width: 200px;
       height: auto;
       display: inline-block;
+    }
+
+    .card-body {
+      padding: 26px 24px 30px;
     }
 
     .eyebrow {
@@ -102,7 +104,7 @@
     }
 
     /* Campos del Formulario */
-    .campo { text-align: left; margin-bottom: 16px; }
+    .campo { text-align: left; margin-bottom: 18px; }
     label {
       display: block;
       font-weight: 600;
@@ -112,7 +114,7 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    input[type="text"], input[type="tel"], select {
+    input[type="tel"], select {
       width: 100%;
       padding: 13px 14px;
       border-radius: 4px;
@@ -124,14 +126,14 @@
       outline: none;
       transition: border-color 0.25s, background-color 0.25s;
     }
-    input[type="text"]::placeholder, input[type="tel"]::placeholder {
+    input[type="tel"]::placeholder {
       color: #7a8088;
     }
     select option {
       background-color: #18181b;
       color: #ffffff;
     }
-    input[type="text"]:focus, input[type="tel"]:focus, select:focus {
+    input[type="tel"]:focus, select:focus {
       border-color: var(--gold);
       background-color: rgba(255, 255, 255, 0.1);
     }
@@ -149,7 +151,7 @@
       cursor: pointer;
       text-transform: uppercase;
       letter-spacing: 1.5px;
-      margin-top: 8px;
+      margin-top: 6px;
       box-shadow: 0 6px 20px rgba(200, 162, 88, 0.3);
       transition: transform 0.15s, filter 0.2s;
     }
@@ -270,83 +272,80 @@
 <body>
 
   <div class="card">
-    <!-- LOGO DE GALERÍA VITERRA -->
+    <!-- CABECERA CLARA PARA EL LOGOTIPO DE GALERÍA VITERRA -->
     <div class="logo-container">
       <img src="https://galeriaviterra.com/wp-content/uploads/2022/06/galeria-viterra-logo-dorado.png" alt="Galería Viterra" class="logo-viterra">
     </div>
 
-    <!-- VISTA 1: ENCUESTA BREVE + CAPTURA -->
-    <div id="pantalla-formulario">
-      <span class="eyebrow">Beneficios exclusivos para</span>
-      <h1 class="script-title">Arquitectos</h1>
-      <div class="gold-divider"></div>
+    <div class="card-body">
+      <!-- VISTA 1: ENCUESTA BREVE (SOLO TELÉFONO Y SECTOR) -->
+      <div id="pantalla-formulario">
+        <span class="eyebrow">Beneficios exclusivos para</span>
+        <h1 class="script-title">Arquitectos</h1>
+        <div class="gold-divider"></div>
 
-      <h2>¿Deseas obtener el 15% de descuento?</h2>
-      <p class="subtitulo">Registra tus datos para generar tu pase preferencial de Galería Viterra.</p>
-      
-      <form id="formDescuento">
-        <div class="campo">
-          <label for="nombre">1. Nombre completo:</label>
-          <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Ej. Arq. Alejandro Méndez" required>
-        </div>
-
-        <div class="campo">
-          <label for="telefono">2. Teléfono / WhatsApp:</label>
-          <input type="tel" id="telefono" name="telefono" autocomplete="tel" placeholder="Ej. 55551234" required>
-        </div>
-
-        <div class="campo">
-          <label for="sector">3. Sector de la arquitectura:</label>
-          <select id="sector" name="sector" required>
-            <option value="" disabled selected>Selecciona tu especialidad...</option>
-            <option value="Arquitectura Residencial">Arquitectura Residencial</option>
-            <option value="Arquitectura Comercial / Corporativa">Arquitectura Comercial / Corporativa</option>
-            <option value="Diseño de Interiores">Diseño de Interiores</option>
-            <option value="Construcción y Remodelación">Construcción y Remodelación</option>
-            <option value="Paisajismo y Urbanismo">Paisajismo y Urbanismo</option>
-            <option value="Estudiante / Independiente">Estudiante / Independiente</option>
-            <option value="Otro sector">Otro sector</option>
-          </select>
-        </div>
+        <h2>¿Deseas obtener el 15% de descuento?</h2>
+        <p class="subtitulo">Completa estos 2 datos para generar tu pase preferencial de Galería Viterra.</p>
         
-        <button type="submit" class="btn-obtener" id="btnObtener">Obtener Beneficio 15%</button>
-      </form>
-    </div>
+        <form id="formDescuento">
+          <div class="campo">
+            <label for="telefono">1. Teléfono / WhatsApp:</label>
+            <input type="tel" id="telefono" name="telefono" autocomplete="tel" placeholder="Ej. 55551234" required>
+          </div>
 
-    <!-- VISTA 2: CUENTA REGRESIVA + CUPÓN DE LUJO GENERADO + WHATSAPP -->
-    <div id="pantalla-promo">
-      <div class="timer-box" id="contenedorTimer">
-        <span class="titulo-timer">Vigencia hasta el 30 de noviembre • Tiempo restante:</span>
-        <div class="grid-contador" id="gridContador">
-          <div class="bloque-tiempo"><strong id="dias">00</strong><small>Días</small></div>
-          <div class="bloque-tiempo"><strong id="horas">00</strong><small>Horas</small></div>
-          <div class="bloque-tiempo"><strong id="minutos">00</strong><small>Min</small></div>
-          <div class="bloque-tiempo"><strong id="segundos">00</strong><small>Seg</small></div>
+          <div class="campo">
+            <label for="sector">2. Área de la arquitectura:</label>
+            <select id="sector" name="sector" required>
+              <option value="" disabled selected>Selecciona tu especialidad...</option>
+              <option value="Arquitectura Residencial">Arquitectura Residencial</option>
+              <option value="Arquitectura Comercial / Corporativa">Arquitectura Comercial / Corporativa</option>
+              <option value="Diseño de Interiores">Diseño de Interiores</option>
+              <option value="Construcción y Remodelación">Construcción y Remodelación</option>
+              <option value="Paisajismo y Urbanismo">Paisajismo y Urbanismo</option>
+              <option value="Estudiante / Independiente">Estudiante / Independiente</option>
+              <option value="Otro sector">Otro sector</option>
+            </select>
+          </div>
+          
+          <button type="submit" class="btn-obtener" id="btnObtener">Obtener Beneficio 15%</button>
+        </form>
+      </div>
+
+      <!-- VISTA 2: CUENTA REGRESIVA + CUPÓN DE LUJO GENERADO + WHATSAPP -->
+      <div id="pantalla-promo">
+        <div class="timer-box" id="contenedorTimer">
+          <span class="titulo-timer">Vigencia hasta el 30 de noviembre • Tiempo restante:</span>
+          <div class="grid-contador" id="gridContador">
+            <div class="bloque-tiempo"><strong id="dias">00</strong><small>Días</small></div>
+            <div class="bloque-tiempo"><strong id="horas">00</strong><small>Horas</small></div>
+            <div class="bloque-tiempo"><strong id="minutos">00</strong><small>Min</small></div>
+            <div class="bloque-tiempo"><strong id="segundos">00</strong><small>Seg</small></div>
+          </div>
         </div>
-      </div>
 
-      <!-- Imagen del cupón de lujo generada dinámicamente con el nombre del cliente -->
-      <div class="cupon-wrapper">
-        <img id="imagenCuponGenerada" src="" alt="Cupón VIP Galería Viterra 15%">
-      </div>
+        <!-- Imagen del cupón de lujo generada dinámicamente -->
+        <div class="cupon-wrapper">
+          <img id="imagenCuponGenerada" src="" alt="Cupón VIP Galería Viterra 15%">
+        </div>
 
-      <div class="instruccion-captura">
-        📸 <strong>Guarda tu pase:</strong> Presiona "Descargar Cupón" o toma una captura de pantalla para presentarlo con tu asesor.
-      </div>
+        <div class="instruccion-captura">
+          📸 <strong>Guarda tu pase:</strong> Presiona "Descargar Imagen del Cupón" o toma una captura de pantalla para presentarlo con tu asesor.
+        </div>
 
-      <div class="acciones">
-        <a id="btnWhatsapp" class="btn-whatsapp" href="#" target="_blank">
-          💬 Contactar Asesor Viterra por WhatsApp
-        </a>
-        <a id="btnDescargar" class="btn-descargar" href="#" download="Pase_VIP_Viterra_15.png">
-          ⬇️ Descargar Imagen del Cupón
-        </a>
+        <div class="acciones">
+          <a id="btnWhatsapp" class="btn-whatsapp" href="#" target="_blank">
+            💬 Contactar Asesor Viterra por WhatsApp
+          </a>
+          <a id="btnDescargar" class="btn-descargar" href="#" download="Pase_VIP_Viterra_15.png">
+            ⬇️ Descargar Imagen del Cupón
+          </a>
+        </div>
       </div>
     </div>
   </div>
 
   <!-- Canvas oculto para renderizar el cupón en alta resolución -->
-  <canvas id="canvasCupon" width="800" height="520" style="display:none;"></canvas>
+  <canvas id="canvasCupon" width="800" height="500" style="display:none;"></canvas>
 
   <script>
     // ==========================================
@@ -367,27 +366,26 @@
       btnObtener.disabled = true;
       btnObtener.textContent = "Generando pase VIP...";
 
-      const nombreCliente = document.getElementById("nombre").value.trim();
       const telefonoCliente = document.getElementById("telefono").value.trim();
       const sectorSeleccionado = document.getElementById("sector").value;
 
-      // 1. Enviar datos a Google Sheets (identificando que viene de Viterra)
+      // 1. Enviar datos a Google Sheets (se marca como Cliente Viterra en la columna de nombre)
       fetch(SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          nombre: `${nombreCliente} [VITERRA]`,
+          nombre: "Cliente Viterra",
           telefono: telefonoCliente,
           sector: sectorSeleccionado
         })
       })
       .finally(() => {
-        // 2. Dibujar la imagen estética del cupón con el nombre del cliente
-        generarImagenCuponLujo(nombreCliente, sectorSeleccionado);
+        // 2. Dibujar la imagen estética del cupón con el área de arquitectura
+        generarImagenCuponLujo(sectorSeleccionado);
 
-        // 3. Configurar enlace de WhatsApp al 47692176 indicando que es cliente de Viterra
-        const mensajeWA = `Hola, soy cliente de Viterra. Mi nombre es ${nombreCliente} (${sectorSeleccionado}) y acabo de generar mi cupón del 15% de descuento. Quisiera asesoría.`;
+        // 3. Configurar enlace de WhatsApp al 47692176
+        const mensajeWA = `Hola, soy cliente de Viterra. Me dedico al área de ${sectorSeleccionado} y acabo de generar mi cupón del 15% de descuento. Quisiera asesoría.`;
         const urlWA = `https://wa.me/${TELEFONO_ASESOR}?text=${encodeURIComponent(mensajeWA)}`;
         document.getElementById("btnWhatsapp").href = urlWA;
 
@@ -398,34 +396,33 @@
       });
     });
 
-    // Función que diseña y convierte el cupón en una imagen PNG descargable
-    function generarImagenCuponLujo(nombre, sector) {
+    function generarImagenCuponLujo(sector) {
       const canvas = document.getElementById("canvasCupon");
       const ctx = canvas.getContext("2d");
 
       // Fondo negro degradado elegante
-      const bgGrad = ctx.createLinearGradient(0, 0, 800, 520);
+      const bgGrad = ctx.createLinearGradient(0, 0, 800, 500);
       bgGrad.addColorStop(0, "#141416");
       bgGrad.addColorStop(0.5, "#1f1e1c");
       bgGrad.addColorStop(1, "#0d0d0f");
       ctx.fillStyle = bgGrad;
-      ctx.fillRect(0, 0, 800, 520);
+      ctx.fillRect(0, 0, 800, 500);
 
       // Destello sutil dorado superior derecho
       const glow = ctx.createRadialGradient(680, 60, 10, 680, 60, 320);
       glow.addColorStop(0, "rgba(200, 162, 88, 0.22)");
       glow.addColorStop(1, "rgba(200, 162, 88, 0)");
       ctx.fillStyle = glow;
-      ctx.fillRect(0, 0, 800, 520);
+      ctx.fillRect(0, 0, 800, 500);
 
-      // Doble marco fino dorado (estilo invitación de lujo)
+      // Doble marco fino dorado
       ctx.strokeStyle = "#c8a258";
       ctx.lineWidth = 2;
-      ctx.strokeRect(24, 24, 752, 472);
+      ctx.strokeRect(24, 24, 752, 452);
 
       ctx.strokeStyle = "rgba(200, 162, 88, 0.35)";
       ctx.lineWidth = 1;
-      ctx.strokeRect(34, 34, 732, 452);
+      ctx.strokeRect(34, 34, 732, 432);
 
       // Encabezado de marca
       ctx.textAlign = "center";
@@ -440,10 +437,10 @@
       ctx.strokeStyle = "rgba(200, 162, 88, 0.5)";
       ctx.stroke();
 
-      // Texto manuscrito "Arquitectos"
+      // Texto manuscrito
       ctx.fillStyle = "#ffffff";
       ctx.font = "400 58px 'Alex Brush', Georgia, serif";
-      ctx.fillText("Beneficio Exclusivo Arquitectos", 400, 165);
+      ctx.fillText("Beneficio Exclusivo Arquitectos", 400, 168);
 
       // Porcentaje gigante en oro metálico
       const goldTextGrad = ctx.createLinearGradient(250, 200, 550, 300);
@@ -451,26 +448,21 @@
       goldTextGrad.addColorStop(0.5, "#f3dba5");
       goldTextGrad.addColorStop(1, "#c8a258");
       ctx.fillStyle = goldTextGrad;
-      ctx.font = "700 105px Montserrat, sans-serif";
-      ctx.fillText("15% OFF", 400, 275);
+      ctx.font = "700 108px Montserrat, sans-serif";
+      ctx.fillText("15% OFF", 400, 282);
 
-      // Nombre del titular del cupón
+      // Especialidad seleccionada
       ctx.fillStyle = "#ffffff";
-      ctx.font = "600 22px Montserrat, sans-serif";
-      ctx.fillText(`OTORGADO A: ${nombre.toUpperCase()}`, 400, 345);
-
-      // Especialidad
-      ctx.fillStyle = "#a1a1aa";
-      ctx.font = "400 16px Montserrat, sans-serif";
-      ctx.fillText(`Especialidad: ${sector}`, 400, 378);
+      ctx.font = "600 19px Montserrat, sans-serif";
+      ctx.fillText(`ÁREA: ${sector.toUpperCase()}`, 400, 352);
 
       // Código de validación único y vigencia
       const codigoUnico = "VTR-" + Math.floor(100000 + Math.random() * 900000);
       ctx.fillStyle = "#e5c685";
       ctx.font = "600 15px Montserrat, sans-serif";
-      ctx.fillText(`CÓDIGO: ${codigoUnico}   |   VÁLIDO HASTA EL 30 DE NOVIEMBRE 2026`, 400, 445);
+      ctx.fillText(`CÓDIGO: ${codigoUnico}   |   VÁLIDO HASTA EL 30 DE NOVIEMBRE 2026`, 400, 425);
 
-      // Exportar Canvas a Imagen PNG para vista previa y descarga directa
+      // Exportar Canvas a Imagen PNG
       const dataUrl = canvas.toDataURL("image/png");
       document.getElementById("imagenCuponGenerada").src = dataUrl;
       document.getElementById("btnDescargar").href = dataUrl;
