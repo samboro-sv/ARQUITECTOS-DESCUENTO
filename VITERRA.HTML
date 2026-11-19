@@ -35,7 +35,6 @@
       color: #f5f5f5;
     }
 
-    /* Tarjeta estilo lujo con marco fino dorado */
     .card {
       background: var(--card-bg);
       backdrop-filter: blur(10px);
@@ -48,7 +47,6 @@
       overflow: hidden;
     }
 
-    /* Cabecera clara para que el logotipo con letras negras sea 100% legible */
     .logo-container {
       background: linear-gradient(180deg, #ffffff 0%, #f4f1ea 100%);
       padding: 20px 24px 16px;
@@ -109,7 +107,6 @@
       margin: 0 0 18px;
     }
 
-    /* Campos del Formulario */
     .campo { text-align: left; margin-bottom: 18px; }
     label {
       display: block;
@@ -161,7 +158,6 @@
     .btn-obtener:active { transform: scale(0.98); }
     .btn-obtener:disabled { opacity: 0.6; cursor: not-allowed; }
 
-    /* Vista 2: Promoción, Temporizador y Cupón Generado */
     #pantalla-promo { display: none; }
 
     .timer-box {
@@ -206,7 +202,6 @@
       color: #a1a1aa;
     }
 
-    /* Vista previa del cupón de lujo */
     .cupon-wrapper {
       margin-bottom: 14px;
       border-radius: 6px;
@@ -274,13 +269,11 @@
 <body>
 
   <div class="card">
-    <!-- CABECERA CLARA PARA EL LOGOTIPO DE GALERÍA VITERRA -->
     <div class="logo-container">
       <img src="https://galeriaviterra.com/wp-content/uploads/2022/06/galeria-viterra-logo-dorado.png" alt="Galería Viterra" class="logo-viterra">
     </div>
 
     <div class="card-body">
-      <!-- VISTA 1: CAPTURA (SOLO TELÉFONO Y NÚMERO DE COLEGIADO) -->
       <div id="pantalla-formulario">
         <span class="eyebrow">Beneficios exclusivos para</span>
         <h1 class="script-title">Arquitectos</h1>
@@ -305,7 +298,6 @@
         </form>
       </div>
 
-      <!-- VISTA 2: CUENTA REGRESIVA AL 31 DIC + CUPÓN DE LUJO GENERADO + WHATSAPP -->
       <div id="pantalla-promo">
         <div class="timer-box" id="contenedorTimer">
           <span class="titulo-timer">Vigencia hasta el 31 de diciembre • Tiempo restante:</span>
@@ -317,7 +309,6 @@
           </div>
         </div>
 
-        <!-- Imagen del cupón de lujo generada dinámicamente -->
         <div class="cupon-wrapper">
           <img id="imagenCuponGenerada" src="" alt="Cupón VIP Galería Viterra 15%">
         </div>
@@ -338,19 +329,12 @@
     </div>
   </div>
 
-  <!-- Canvas oculto para renderizar el cupón en alta resolución -->
   <canvas id="canvasCupon" width="800" height="500" style="display:none;"></canvas>
 
   <script>
-    // ==========================================
-    // CONFIGURACIÓN VITERRA
-    // ==========================================
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxN6Fqo__uUZkf3yjCbnOZ7wOYoLg5GrZ2WmS3aG1mcAFz22Zc56TOVgUNbbEVFJEnwTg/exec";
-    const TELEFONO_ASESOR = "50247692176"; // Número configurado: 47692176 (Guatemala +502)
-    
-    // Fecha límite: 31 de diciembre de 2026 a las 23:59:59 (Mes 11 en JS = Diciembre)
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyeHMvrqasozCFHkWZ3-1Va4zdyDnfVoMhIpL_enzIMtuQkQlzth1SW2E1gTw4YjmRjTA/exec";
+    const TELEFONO_ASESOR = "50247692176";
     const FECHA_LIMITE = new Date(2026, 11, 31, 23, 59, 59).getTime();
-    // ==========================================
 
     const form = document.getElementById("formDescuento");
     const btnObtener = document.getElementById("btnObtener");
@@ -363,27 +347,23 @@
       const telefonoCliente = document.getElementById("telefono").value.trim();
       const numeroColegiado = document.getElementById("colegiado").value.trim();
 
-      // 1. Enviar datos a Google Sheets
       fetch(SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          nombre: "Cliente Viterra",
+          marca: "Viterra",
           telefono: telefonoCliente,
-          sector: `Colegiado: ${numeroColegiado}`
+          colegiado: numeroColegiado
         })
       })
       .finally(() => {
-        // 2. Dibujar la imagen estética del cupón con el número de colegiado
         generarImagenCuponLujo(numeroColegiado);
 
-        // 3. Configurar enlace de WhatsApp al 47692176 con el mensaje solicitado
         const mensajeWA = `Hola, soy cliente de Viterra (Colegiado No. ${numeroColegiado}). Quiero obtener el 15% de descuento en fabricado.`;
         const urlWA = `https://wa.me/${TELEFONO_ASESOR}?text=${encodeURIComponent(mensajeWA)}`;
         document.getElementById("btnWhatsapp").href = urlWA;
 
-        // 4. Cambiar de pantalla e iniciar contador
         document.getElementById("pantalla-formulario").style.display = "none";
         document.getElementById("pantalla-promo").style.display = "block";
         iniciarTemporizadorFechaLimite();
@@ -394,7 +374,6 @@
       const canvas = document.getElementById("canvasCupon");
       const ctx = canvas.getContext("2d");
 
-      // Fondo negro degradado elegante
       const bgGrad = ctx.createLinearGradient(0, 0, 800, 500);
       bgGrad.addColorStop(0, "#141416");
       bgGrad.addColorStop(0.5, "#1f1e1c");
@@ -402,14 +381,12 @@
       ctx.fillStyle = bgGrad;
       ctx.fillRect(0, 0, 800, 500);
 
-      // Destello sutil dorado superior derecho
       const glow = ctx.createRadialGradient(680, 60, 10, 680, 60, 320);
       glow.addColorStop(0, "rgba(200, 162, 88, 0.22)");
       glow.addColorStop(1, "rgba(200, 162, 88, 0)");
       ctx.fillStyle = glow;
       ctx.fillRect(0, 0, 800, 500);
 
-      // Doble marco fino dorado
       ctx.strokeStyle = "#c8a258";
       ctx.lineWidth = 2;
       ctx.strokeRect(24, 24, 752, 452);
@@ -418,25 +395,21 @@
       ctx.lineWidth = 1;
       ctx.strokeRect(34, 34, 732, 432);
 
-      // Encabezado de marca
       ctx.textAlign = "center";
       ctx.fillStyle = "#e5c685";
       ctx.font = "600 18px Montserrat, sans-serif";
       ctx.fillText("GALERÍA VITERRA  •  RECUBRIMIENTOS", 400, 82);
 
-      // Línea divisoria dorada
       ctx.beginPath();
       ctx.moveTo(220, 102);
       ctx.lineTo(580, 102);
       ctx.strokeStyle = "rgba(200, 162, 88, 0.5)";
       ctx.stroke();
 
-      // Texto manuscrito
       ctx.fillStyle = "#ffffff";
       ctx.font = "400 58px 'Alex Brush', Georgia, serif";
       ctx.fillText("Beneficio Exclusivo Arquitectos", 400, 168);
 
-      // Porcentaje gigante en oro metálico
       const goldTextGrad = ctx.createLinearGradient(250, 200, 550, 300);
       goldTextGrad.addColorStop(0, "#b89146");
       goldTextGrad.addColorStop(0.5, "#f3dba5");
@@ -445,23 +418,19 @@
       ctx.font = "700 108px Montserrat, sans-serif";
       ctx.fillText("15% OFF", 400, 278);
 
-      // Subtítulo en fabricado + Número de Colegiado
       ctx.fillStyle = "#ffffff";
       ctx.font = "600 19px Montserrat, sans-serif";
       ctx.fillText(`EN PRODUCTO FABRICADO  •  COLEGIADO NO. ${colegiado.toUpperCase()}`, 400, 348);
 
-      // Código de validación único y vigencia
       const codigoUnico = "VTR-" + Math.floor(100000 + Math.random() * 900000);
       ctx.fillStyle = "#e5c685";
       ctx.font = "600 14px Montserrat, sans-serif";
       ctx.fillText(`CÓDIGO: ${codigoUnico}   |   VÁLIDO HASTA EL 31 DE DICIEMBRE 2026`, 400, 415);
 
-      // Nota de restricciones en la imagen del cupón
       ctx.fillStyle = "#a1a1aa";
       ctx.font = "400 12px Montserrat, sans-serif";
       ctx.fillText("*Aplican restricciones.", 400, 445);
 
-      // Exportar Canvas a Imagen PNG
       const dataUrl = canvas.toDataURL("image/png");
       document.getElementById("imagenCuponGenerada").src = dataUrl;
       document.getElementById("btnDescargar").href = dataUrl;
