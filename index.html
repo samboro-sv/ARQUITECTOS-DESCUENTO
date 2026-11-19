@@ -62,15 +62,15 @@
       color: #7a828e;
       font-size: 11px;
       font-style: italic;
-      margin: 0 0 16px;
+      margin: 0 0 18px;
     }
 
     /* Campos del Formulario */
-    .campo { text-align: left; margin-bottom: 14px; }
-    label { display: block; font-weight: 600; color: #2d333b; margin-bottom: 5px; font-size: 14px; }
+    .campo { text-align: left; margin-bottom: 16px; }
+    label { display: block; font-weight: 600; color: #2d333b; margin-bottom: 6px; font-size: 14px; }
     input[type="text"], input[type="tel"] {
       width: 100%;
-      padding: 12px 14px;
+      padding: 13px 14px;
       border-radius: 10px;
       border: 1.5px solid #d0d7de;
       font-size: 16px;
@@ -206,7 +206,7 @@
       <img src="https://www.samboro.com/wp-content/uploads/2024/11/logo-samboro-para-menu-web.png" alt="Logo Samboro" class="logo-samboro">
     </div>
 
-    <!-- VISTA 1: CAPTURA -->
+    <!-- VISTA 1: CAPTURA (SOLO TELÉFONO Y COLEGIADO) -->
     <div id="pantalla-formulario">
       <span class="badge">Beneficio Exclusivo</span>
       <h2>¿Quieres el 15% de descuento?</h2>
@@ -215,17 +215,12 @@
       
       <form id="formDescuento">
         <div class="campo">
-          <label for="nombre">1. Tu nombre:</label>
-          <input type="text" id="nombre" name="nombre" autocomplete="name" placeholder="Ej. Arq. Carlos Méndez" required>
-        </div>
-
-        <div class="campo">
-          <label for="telefono">2. Tu número de teléfono / WhatsApp:</label>
+          <label for="telefono">1. Tu número de teléfono / WhatsApp:</label>
           <input type="tel" id="telefono" name="telefono" autocomplete="tel" placeholder="Ej. 55551234" required>
         </div>
 
         <div class="campo">
-          <label for="colegiado">3. Número de colegiado:</label>
+          <label for="colegiado">2. Número de colegiado:</label>
           <input type="text" id="colegiado" name="colegiado" placeholder="Ej. 12345" required>
         </div>
         
@@ -235,7 +230,7 @@
 
     <!-- VISTA 2: CUENTA REGRESIVA AL 31 DIC + IMAGEN + ASESOR WHATSAPP -->
     <div id="pantalla-promo">
-      <h2 id="tituloSaludo">🎉 ¡Cupón Desbloqueado!</h2>
+      <h2>🎉 ¡Cupón Desbloqueado!</h2>
       
       <div class="timer-box" id="contenedorTimer">
         <span class="titulo-timer">Promoción válida hasta el 31 de diciembre. Quedan:</span>
@@ -274,9 +269,9 @@
     const IMAGEN_VER_URL = `https://lh3.googleusercontent.com/d/${DRIVE_FILE_ID}`;
     const IMAGEN_DESCARGA_URL = `https://drive.google.com/uc?export=download&id=${DRIVE_FILE_ID}`;
 
-    const TELEFONO_ASESOR = "50247692176"; // Código de país + número del asesor (sin + ni espacios)
+    const TELEFONO_ASESOR = "50247692176"; // Número configurado: 47692176 (Guatemala +502)
     
-    // Fecha límite: 31 de diciembre de 2026 a las 23:59:59 (Mes 11 en JS = Diciembre)
+    // Fecha límite: 31 de diciembre de 2026 a las 23:59:59
     const FECHA_LIMITE = new Date(2026, 11, 31, 23, 59, 59).getTime();
     // ==========================================
 
@@ -288,29 +283,27 @@
       btnObtener.disabled = true;
       btnObtener.textContent = "Desbloqueando cupón...";
 
-      const nombreCliente = document.getElementById("nombre").value.trim();
       const telefonoCliente = document.getElementById("telefono").value.trim();
       const numeroColegiado = document.getElementById("colegiado").value.trim();
 
-      // 1. Enviar datos a Google Sheets (envía el colegiado en el campo sector)
+      // 1. Enviar datos a Google Sheets
       fetch(SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          nombre: nombreCliente,
+          nombre: "Cliente Samboro",
           telefono: telefonoCliente,
           sector: `Colegiado: ${numeroColegiado}`
         })
       })
       .finally(() => {
-        // 2. Personalizar saludo e imagen
-        document.getElementById("tituloSaludo").textContent = `🎉 ¡Cupón listo, ${nombreCliente}!`;
+        // 2. Configurar imagen
         document.getElementById("imagenCupon").src = IMAGEN_VER_URL;
         document.getElementById("btnDescargar").href = IMAGEN_DESCARGA_URL;
 
-        // 3. Configurar enlace de WhatsApp con el mensaje solicitado
-        const mensajeWA = `Hola, soy ${nombreCliente} (Colegiado No. ${numeroColegiado}). Quiero obtener el 15% de descuento en fabricado.`;
+        // 3. Configurar enlace de WhatsApp al 47692176
+        const mensajeWA = `Hola (Colegiado No. ${numeroColegiado}). Quiero obtener el 15% de descuento en fabricado.`;
         const urlWA = `https://wa.me/${TELEFONO_ASESOR}?text=${encodeURIComponent(mensajeWA)}`;
         document.getElementById("btnWhatsapp").href = urlWA;
 
