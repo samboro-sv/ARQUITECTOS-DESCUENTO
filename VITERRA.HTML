@@ -99,8 +99,14 @@
       color: #b8bcc2;
       font-size: 13px;
       font-weight: 300;
-      margin: 0 0 22px;
+      margin: 0 0 6px;
       line-height: 1.4;
+    }
+    p.restricciones {
+      color: #8c9199;
+      font-size: 11px;
+      font-style: italic;
+      margin: 0 0 18px;
     }
 
     /* Campos del Formulario */
@@ -114,7 +120,7 @@
       text-transform: uppercase;
       letter-spacing: 1px;
     }
-    input[type="tel"], select {
+    input[type="text"], input[type="tel"] {
       width: 100%;
       padding: 13px 14px;
       border-radius: 4px;
@@ -126,14 +132,10 @@
       outline: none;
       transition: border-color 0.25s, background-color 0.25s;
     }
-    input[type="tel"]::placeholder {
+    input[type="text"]::placeholder, input[type="tel"]::placeholder {
       color: #7a8088;
     }
-    select option {
-      background-color: #18181b;
-      color: #ffffff;
-    }
-    input[type="tel"]:focus, select:focus {
+    input[type="text"]:focus, input[type="tel"]:focus {
       border-color: var(--gold);
       background-color: rgba(255, 255, 255, 0.1);
     }
@@ -278,14 +280,15 @@
     </div>
 
     <div class="card-body">
-      <!-- VISTA 1: ENCUESTA BREVE (SOLO TELÉFONO Y SECTOR) -->
+      <!-- VISTA 1: CAPTURA (SOLO TELÉFONO Y NÚMERO DE COLEGIADO) -->
       <div id="pantalla-formulario">
         <span class="eyebrow">Beneficios exclusivos para</span>
         <h1 class="script-title">Arquitectos</h1>
         <div class="gold-divider"></div>
 
-        <h2>¿Deseas obtener el 15% de descuento?</h2>
-        <p class="subtitulo">Completa estos 2 datos para generar tu pase preferencial de Galería Viterra.</p>
+        <h2>¿Quieres el 15% de descuento?</h2>
+        <p class="subtitulo">Ingresa tus datos para generar tu pase preferencial de Galería Viterra.</p>
+        <p class="restricciones">*Aplican restricciones.</p>
         
         <form id="formDescuento">
           <div class="campo">
@@ -294,27 +297,18 @@
           </div>
 
           <div class="campo">
-            <label for="sector">2. Área de la arquitectura:</label>
-            <select id="sector" name="sector" required>
-              <option value="" disabled selected>Selecciona tu especialidad...</option>
-              <option value="Arquitectura Residencial">Arquitectura Residencial</option>
-              <option value="Arquitectura Comercial / Corporativa">Arquitectura Comercial / Corporativa</option>
-              <option value="Diseño de Interiores">Diseño de Interiores</option>
-              <option value="Construcción y Remodelación">Construcción y Remodelación</option>
-              <option value="Paisajismo y Urbanismo">Paisajismo y Urbanismo</option>
-              <option value="Estudiante / Independiente">Estudiante / Independiente</option>
-              <option value="Otro sector">Otro sector</option>
-            </select>
+            <label for="colegiado">2. Número de colegiado:</label>
+            <input type="text" id="colegiado" name="colegiado" placeholder="Ej. 12345" required>
           </div>
           
           <button type="submit" class="btn-obtener" id="btnObtener">Obtener Beneficio 15%</button>
         </form>
       </div>
 
-      <!-- VISTA 2: CUENTA REGRESIVA + CUPÓN DE LUJO GENERADO + WHATSAPP -->
+      <!-- VISTA 2: CUENTA REGRESIVA AL 31 DIC + CUPÓN DE LUJO GENERADO + WHATSAPP -->
       <div id="pantalla-promo">
         <div class="timer-box" id="contenedorTimer">
-          <span class="titulo-timer">Vigencia hasta el 30 de noviembre • Tiempo restante:</span>
+          <span class="titulo-timer">Vigencia hasta el 31 de diciembre • Tiempo restante:</span>
           <div class="grid-contador" id="gridContador">
             <div class="bloque-tiempo"><strong id="dias">00</strong><small>Días</small></div>
             <div class="bloque-tiempo"><strong id="horas">00</strong><small>Horas</small></div>
@@ -354,8 +348,8 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxN6Fqo__uUZkf3yjCbnOZ7wOYoLg5GrZ2WmS3aG1mcAFz22Zc56TOVgUNbbEVFJEnwTg/exec";
     const TELEFONO_ASESOR = "50247692176"; // Número configurado: 47692176 (Guatemala +502)
     
-    // Fecha límite: 30 de noviembre de 2026 a las 23:59:59
-    const FECHA_LIMITE = new Date(2026, 10, 30, 23, 59, 59).getTime();
+    // Fecha límite: 31 de diciembre de 2026 a las 23:59:59 (Mes 11 en JS = Diciembre)
+    const FECHA_LIMITE = new Date(2026, 11, 31, 23, 59, 59).getTime();
     // ==========================================
 
     const form = document.getElementById("formDescuento");
@@ -367,9 +361,9 @@
       btnObtener.textContent = "Generando pase VIP...";
 
       const telefonoCliente = document.getElementById("telefono").value.trim();
-      const sectorSeleccionado = document.getElementById("sector").value;
+      const numeroColegiado = document.getElementById("colegiado").value.trim();
 
-      // 1. Enviar datos a Google Sheets (se marca como Cliente Viterra en la columna de nombre)
+      // 1. Enviar datos a Google Sheets
       fetch(SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
@@ -377,15 +371,15 @@
         body: JSON.stringify({
           nombre: "Cliente Viterra",
           telefono: telefonoCliente,
-          sector: sectorSeleccionado
+          sector: `Colegiado: ${numeroColegiado}`
         })
       })
       .finally(() => {
-        // 2. Dibujar la imagen estética del cupón con el área de arquitectura
-        generarImagenCuponLujo(sectorSeleccionado);
+        // 2. Dibujar la imagen estética del cupón con el número de colegiado
+        generarImagenCuponLujo(numeroColegiado);
 
-        // 3. Configurar enlace de WhatsApp al 47692176
-        const mensajeWA = `Hola, soy cliente de Viterra. Me dedico al área de ${sectorSeleccionado} y acabo de generar mi cupón del 15% de descuento. Quisiera asesoría.`;
+        // 3. Configurar enlace de WhatsApp al 47692176 con el mensaje solicitado
+        const mensajeWA = `Hola, soy cliente de Viterra (Colegiado No. ${numeroColegiado}). Quiero obtener el 15% de descuento en fabricado.`;
         const urlWA = `https://wa.me/${TELEFONO_ASESOR}?text=${encodeURIComponent(mensajeWA)}`;
         document.getElementById("btnWhatsapp").href = urlWA;
 
@@ -396,7 +390,7 @@
       });
     });
 
-    function generarImagenCuponLujo(sector) {
+    function generarImagenCuponLujo(colegiado) {
       const canvas = document.getElementById("canvasCupon");
       const ctx = canvas.getContext("2d");
 
@@ -449,18 +443,23 @@
       goldTextGrad.addColorStop(1, "#c8a258");
       ctx.fillStyle = goldTextGrad;
       ctx.font = "700 108px Montserrat, sans-serif";
-      ctx.fillText("15% OFF", 400, 282);
+      ctx.fillText("15% OFF", 400, 278);
 
-      // Especialidad seleccionada
+      // Subtítulo en fabricado + Número de Colegiado
       ctx.fillStyle = "#ffffff";
       ctx.font = "600 19px Montserrat, sans-serif";
-      ctx.fillText(`ÁREA: ${sector.toUpperCase()}`, 400, 352);
+      ctx.fillText(`EN PRODUCTO FABRICADO  •  COLEGIADO NO. ${colegiado.toUpperCase()}`, 400, 348);
 
       // Código de validación único y vigencia
       const codigoUnico = "VTR-" + Math.floor(100000 + Math.random() * 900000);
       ctx.fillStyle = "#e5c685";
-      ctx.font = "600 15px Montserrat, sans-serif";
-      ctx.fillText(`CÓDIGO: ${codigoUnico}   |   VÁLIDO HASTA EL 30 DE NOVIEMBRE 2026`, 400, 425);
+      ctx.font = "600 14px Montserrat, sans-serif";
+      ctx.fillText(`CÓDIGO: ${codigoUnico}   |   VÁLIDO HASTA EL 31 DE DICIEMBRE 2026`, 400, 415);
+
+      // Nota de restricciones en la imagen del cupón
+      ctx.fillStyle = "#a1a1aa";
+      ctx.font = "400 12px Montserrat, sans-serif";
+      ctx.fillText("*Aplican restricciones.", 400, 445);
 
       // Exportar Canvas a Imagen PNG
       const dataUrl = canvas.toDataURL("image/png");
