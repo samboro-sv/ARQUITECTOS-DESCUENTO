@@ -9,7 +9,7 @@
     
     body {
       background-image: linear-gradient(rgba(18, 22, 26, 0.72), rgba(18, 22, 26, 0.82)), 
-                        url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTqamsmsxaun1PZnnI0-nMhHlhZ3XATXB9k_GVUlwIPlsWBFHrxJzSyBygl&s=10');
+                        url('https://www.samboro.com/wp-content/uploads/2024/07/ABEDUL-CAOBA-VT00013110-es-PXv43idE1oAWIH80.jpg');
       background-size: cover;
       background-position: center;
       background-attachment: fixed;
@@ -65,7 +65,6 @@
       margin: 0 0 18px;
     }
 
-    /* Campos del Formulario */
     .campo { text-align: left; margin-bottom: 16px; }
     label { display: block; font-weight: 600; color: #2d333b; margin-bottom: 6px; font-size: 14px; }
     input[type="text"], input[type="tel"] {
@@ -104,7 +103,6 @@
     .btn-obtener:active { transform: scale(0.98); }
     .btn-obtener:disabled { background: #8c959f; cursor: not-allowed; }
 
-    /* Vista 2: Promoción, Temporizador y Botón WhatsApp */
     #pantalla-promo { display: none; }
     
     .timer-box {
@@ -201,12 +199,10 @@
 <body>
 
   <div class="card">
-    <!-- LOGO DE SAMBORO -->
     <div class="logo-container">
       <img src="https://www.samboro.com/wp-content/uploads/2024/11/logo-samboro-para-menu-web.png" alt="Logo Samboro" class="logo-samboro">
     </div>
 
-    <!-- VISTA 1: CAPTURA (SOLO TELÉFONO Y COLEGIADO) -->
     <div id="pantalla-formulario">
       <span class="badge">Beneficio Exclusivo</span>
       <h2>¿Quieres el 15% de descuento?</h2>
@@ -228,7 +224,6 @@
       </form>
     </div>
 
-    <!-- VISTA 2: CUENTA REGRESIVA AL 31 DIC + IMAGEN + ASESOR WHATSAPP -->
     <div id="pantalla-promo">
       <h2>🎉 ¡Cupón Desbloqueado!</h2>
       
@@ -260,20 +255,12 @@
   </div>
 
   <script>
-    // ==========================================
-    // CONFIGURACIÓN SAMBORO
-    // ==========================================
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxN6Fqo__uUZkf3yjCbnOZ7wOYoLg5GrZ2WmS3aG1mcAFz22Zc56TOVgUNbbEVFJEnwTg/exec";
-    
     const DRIVE_FILE_ID = "1-a6Q1gdUY49cUFNgpA5iQ6DDdRy5d8jP";
     const IMAGEN_VER_URL = `https://lh3.googleusercontent.com/d/${DRIVE_FILE_ID}`;
     const IMAGEN_DESCARGA_URL = `https://drive.google.com/uc?export=download&id=${DRIVE_FILE_ID}`;
-
-    const TELEFONO_ASESOR = "50247692176"; // Número configurado: 47692176 (Guatemala +502)
-    
-    // Fecha límite: 31 de diciembre de 2026 a las 23:59:59
+    const TELEFONO_ASESOR = "50247692176";
     const FECHA_LIMITE = new Date(2026, 11, 31, 23, 59, 59).getTime();
-    // ==========================================
 
     const form = document.getElementById("formDescuento");
     const btnObtener = document.getElementById("btnObtener");
@@ -286,28 +273,24 @@
       const telefonoCliente = document.getElementById("telefono").value.trim();
       const numeroColegiado = document.getElementById("colegiado").value.trim();
 
-      // 1. Enviar datos a Google Sheets
       fetch(SCRIPT_URL, {
         method: "POST",
         mode: "no-cors",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          nombre: "Cliente Samboro",
+          marca: "Samboro",
           telefono: telefonoCliente,
-          sector: `Colegiado: ${numeroColegiado}`
+          colegiado: numeroColegiado
         })
       })
       .finally(() => {
-        // 2. Configurar imagen
         document.getElementById("imagenCupon").src = IMAGEN_VER_URL;
         document.getElementById("btnDescargar").href = IMAGEN_DESCARGA_URL;
 
-        // 3. Configurar enlace de WhatsApp al 47692176
         const mensajeWA = `Hola (Colegiado No. ${numeroColegiado}). Quiero obtener el 15% de descuento en fabricado.`;
         const urlWA = `https://wa.me/${TELEFONO_ASESOR}?text=${encodeURIComponent(mensajeWA)}`;
         document.getElementById("btnWhatsapp").href = urlWA;
 
-        // 4. Cambiar de pantalla e iniciar reloj
         document.getElementById("pantalla-formulario").style.display = "none";
         document.getElementById("pantalla-promo").style.display = "block";
         iniciarTemporizadorFechaLimite();
